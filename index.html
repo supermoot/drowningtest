@@ -5,506 +5,700 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Drowning Test™ — Narrative Resilience for Institutions</title>
   <style>
-    @layer reset, base, layout, components, animations;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    @layer reset {
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      ul { list-style: none; }
-      button { cursor: pointer; font: inherit; }
-      a { cursor: pointer; }
+    :root {
+      --black: #000000;
+      --off-black: #1d1d1f;
+      --dark-gray: #2d2d2f;
+      --mid-gray: #6e6e73;
+      --light-gray: #f5f5f7;
+      --white: #ffffff;
+      --accent: #0071e3;
+      --accent-hover: #0077ed;
+      --accent-light: #e8f0fe;
+      --red: #ff3b30;
+      --amber: #ff9500;
+      --green: #34c759;
+      --radius: 18px;
+      --radius-sm: 10px;
     }
 
-    @layer base {
-      :root {
-        --ink:        #09090b;
-        --ink-mid:    #52525b;
-        --ink-faint:  #a1a1aa;
-        --paper:      #fafaf9;
-        --paper-dim:  #f1f0ec;
-        --white:      #ffffff;
-        --border:     #e4e4e7;
+    html { scroll-behavior: smooth; }
 
-        --dark:       #09090b;
-        --dark-2:     #111113;
-        --dark-3:     #1c1c1e;
-        --d-border:   rgba(255,255,255,0.08);
-        --d-text:     #fafaf9;
-        --d-muted:    rgba(255,255,255,0.45);
-
-        --red:        #dc2626;
-        --red-dim:    rgba(220,38,38,0.12);
-        --red-border: rgba(220,38,38,0.22);
-
-        --amber:      #d97706;
-        --amber-dim:  rgba(217,119,6,0.1);
-        --green:      #16a34a;
-        --green-dim:  rgba(22,163,74,0.1);
-        --blue:       #2563eb;
-        --blue-dim:   rgba(37,99,235,0.1);
-
-        --r-sm: 8px;  --r-md: 14px; --r-lg: 20px; --r-xl: 28px; --r-full: 9999px;
-      }
-
-      html { scroll-behavior: smooth; }
-
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-        background: var(--paper);
-        color: var(--ink);
-        -webkit-font-smoothing: antialiased;
-        overflow-x: hidden;
-        font-size: 16px;
-        line-height: 1.6;
-      }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      background: var(--white);
+      color: var(--off-black);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    @layer layout {
-      .wrap { max-width: 1120px; margin-inline: auto; padding-inline: 24px; }
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      height: 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px;
+    }
+    .nav-logo {
+      font-size: 15px; font-weight: 600; letter-spacing: -0.3px;
+      color: var(--off-black); text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-cta {
+      font-size: 13px; font-weight: 500;
+      background: var(--accent); color: var(--white);
+      border: none; border-radius: 980px;
+      padding: 7px 16px; cursor: pointer; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--accent-hover); }
+
+    /* SECTIONS */
+    section { width: 100%; }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .container-wide {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
     }
 
-    @layer components {
+    /* HERO */
+    .hero {
+      background: var(--black);
+      padding: 140px 0 100px;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,113,227,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 24px;
+      display: inline-block;
+      background: rgba(0,113,227,0.15);
+      padding: 6px 14px; border-radius: 980px;
+      border: 1px solid rgba(0,113,227,0.3);
+    }
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 80px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #4facfe 0%, #0071e3 50%, #a29bfe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(17px, 2.5vw, 22px);
+      line-height: 1.55;
+      color: rgba(255,255,255,0.65);
+      max-width: 620px;
+      margin: 0 auto 48px;
+      font-weight: 400;
+    }
+    .hero-actions {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    }
+    .btn-primary {
+      font-size: 16px; font-weight: 500;
+      background: var(--accent); color: var(--white);
+      border: none; border-radius: 980px;
+      padding: 14px 28px; cursor: pointer; text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: scale(1.02); }
+    .btn-secondary {
+      font-size: 16px; font-weight: 500;
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 980px;
+      padding: 14px 28px; cursor: pointer; text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+      backdrop-filter: blur(10px);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.16); transform: scale(1.02); }
 
-      /* NAV */
-      .nav {
-        position: fixed; inset-block-start: 0; inset-inline: 0; z-index: 100;
-        height: 56px;
-        display: flex; align-items: center; justify-content: space-between;
-        padding-inline: 32px;
-        transition: background 0.3s, border-color 0.3s;
-      }
-      .nav.scrolled {
-        background: rgba(9,9,11,0.9);
-        backdrop-filter: blur(20px) saturate(180%);
-        -webkit-backdrop-filter: blur(20px) saturate(180%);
-        border-bottom: 1px solid var(--d-border);
-      }
-      .nav-brand {
-        font-size: 14px; font-weight: 700; letter-spacing: -0.01em;
-        color: var(--d-text); text-decoration: none;
-      }
-      .nav-brand em { font-style: normal; color: var(--red); }
-      .nav-cta {
-        font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-        background: var(--red); color: var(--white);
-        border: none; border-radius: var(--r-full);
-        padding: 8px 18px; text-decoration: none;
-        transition: opacity 0.15s;
-      }
-      .nav-cta:hover { opacity: 0.82; }
-
-      /* HERO */
-      .hero {
-        background: var(--dark);
-        padding-block: 160px 120px;
-        text-align: center;
-        position: relative; overflow: hidden;
-      }
-      .hero::before {
-        content: '';
-        position: absolute; inset: 0;
-        background: radial-gradient(ellipse 65% 55% at 50% -5%, rgba(220,38,38,0.2) 0%, transparent 68%);
-        pointer-events: none;
-      }
-      .hero-tag {
-        display: inline-flex; align-items: center;
-        font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-        color: var(--red);
-        background: var(--red-dim); border: 1px solid var(--red-border);
-        border-radius: var(--r-full); padding: 5px 14px;
-        margin-bottom: 32px;
-      }
-      .hero h1 {
-        font-size: clamp(38px, 6.5vw, 78px);
-        font-weight: 800; letter-spacing: -0.045em; line-height: 1.02;
-        color: var(--d-text); margin-bottom: 24px;
-      }
-      .hero h1 em { font-style: normal; color: var(--red); }
-      .hero-sub {
-        font-size: clamp(16px, 2.2vw, 20px);
-        line-height: 1.65; color: var(--d-muted);
-        max-width: 580px; margin-inline: auto; margin-bottom: 48px;
-      }
-      .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-
-      /* BUTTONS */
-      .btn {
-        display: inline-flex; align-items: center;
-        font-size: 14px; font-weight: 600;
-        border-radius: var(--r-full);
-        padding: 13px 26px; text-decoration: none;
-        transition: opacity 0.15s, transform 0.15s;
-        border: none;
-      }
-      .btn:hover { opacity: 0.84; transform: translateY(-1px); }
-      .btn-red   { background: var(--red);   color: var(--white); }
-      .btn-ghost { background: transparent;  color: var(--d-text); border: 1.5px solid rgba(255,255,255,0.18); }
-      .btn-white { background: var(--white); color: var(--red); }
-
-      /* STATS */
-      .stats {
-        background: var(--dark-2);
-        border-bottom: 1px solid var(--d-border);
-      }
-      .stats-grid {
-        display: grid; grid-template-columns: repeat(3, 1fr);
-      }
-      .stat {
-        padding: 56px 32px; text-align: center;
-        border-right: 1px solid var(--d-border);
-      }
-      .stat:last-child { border-right: none; }
-      .stat-num {
-        font-size: clamp(38px, 5vw, 58px); font-weight: 800;
-        letter-spacing: -0.05em; color: var(--d-text);
-        line-height: 1; margin-bottom: 10px;
-      }
-      .stat-num mark { background: none; color: var(--red); }
-      .stat-label {
-        font-size: 12px; line-height: 1.55; color: var(--d-muted);
-        max-width: 200px; margin-inline: auto;
-      }
-
-      /* SHARED SECTION TYPOGRAPHY */
-      .eyebrow {
-        display: block;
-        font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-        margin-bottom: 16px;
-      }
-      .eyebrow-red  { color: var(--red); }
-      .eyebrow-ink  { color: var(--ink-mid); }
-      .eyebrow-dim  { color: var(--d-muted); }
-
-      .sh {
-        font-size: clamp(28px, 4vw, 50px);
-        font-weight: 800; letter-spacing: -0.038em; line-height: 1.07;
-      }
-      .sh-ink   { color: var(--ink); }
-      .sh-white { color: var(--d-text); }
-
-      .sp {
-        font-size: 17px; line-height: 1.7; color: var(--ink-mid);
-        max-width: 540px;
-      }
-      .sp-dim { color: var(--d-muted); }
-
-      .rule { width: 36px; height: 3px; background: var(--red); border-radius: 2px; margin-block: 24px; }
-
-      .section-hd { margin-bottom: 64px; }
-      .section-hd-c { text-align: center; }
-      .section-hd-c .sp { margin-inline: auto; }
-
-      /* PROBLEM */
-      .problem { background: var(--paper); padding-block: 120px; }
-      .problem-layout {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
-      }
-      .problem-stack { display: flex; flex-direction: column; gap: 14px; }
-      .problem-card {
-        background: var(--white); border: 1px solid var(--border);
-        border-radius: var(--r-md); padding: 22px;
-        display: flex; gap: 16px; align-items: flex-start;
-      }
-      .p-icon {
-        width: 36px; height: 36px; border-radius: var(--r-sm); flex-shrink: 0;
-        display: flex; align-items: center; justify-content: center; font-size: 15px;
-      }
-      .p-icon-red   { background: var(--red-dim); }
-      .p-icon-amber { background: var(--amber-dim); }
-      .p-icon-blue  { background: var(--blue-dim); }
-      .p-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
-      .p-body  { font-size: 13px; line-height: 1.6; color: var(--ink-mid); }
-
-      /* METHODOLOGY */
-      .method { background: var(--dark); padding-block: 120px; }
-
-      .instruments {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
-        border-radius: var(--r-xl); overflow: hidden;
-        margin-bottom: 3px;
-      }
-      .instrument {
-        background: var(--dark-3); padding: 40px;
-        position: relative; overflow: hidden;
-      }
-      .instrument::before {
-        content: ''; position: absolute; inset-block-start: 0; inset-inline: 0;
-        height: 2px; background: var(--red);
-      }
-      .instr-tag {
-        font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-        color: var(--red); margin-bottom: 16px; display: block;
-      }
-      .instr-title {
-        font-size: 20px; font-weight: 700; color: var(--d-text);
-        letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 14px;
-      }
-      .instr-body { font-size: 14px; line-height: 1.7; color: var(--d-muted); }
-
-      .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
-      .tag {
-        font-size: 11px; font-weight: 500;
-        background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.5);
-        border: 1px solid var(--d-border); border-radius: 6px; padding: 3px 9px;
-      }
-      .tag-r { background: var(--red-dim); color: rgba(255,140,140,0.9); border-color: var(--red-border); }
-
-      .diagnostic {
-        background: var(--dark-3); border-radius: var(--r-xl); padding: 40px;
-      }
-
-      /* DIMENSIONS */
-      .dimensions { background: var(--paper); padding-block: 120px; }
-
-      .dim-tabs {
-        display: flex; gap: 2px;
-        background: var(--paper-dim); border-radius: var(--r-sm); padding: 3px;
-        width: fit-content; margin-bottom: 28px;
-      }
-      .dim-tab {
-        font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-        padding: 7px 16px; border-radius: 6px;
-        border: none; background: transparent; color: var(--ink-mid);
-        transition: all 0.15s;
-      }
-      .dim-tab.active {
-        background: var(--white); color: var(--ink);
-        box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-      }
-      .dim-panel { display: none; }
-      .dim-panel.active { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-
-      .dim-card {
-        background: var(--white); border: 1px solid var(--border);
-        border-radius: var(--r-md); padding: 24px;
-        transition: transform 0.2s, box-shadow 0.2s;
-      }
-      .dim-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.07); }
-
-      .dim-num {
-        font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
-        margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
-      }
-      .dim-num::before { content: ''; width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-      .dim-cap { color: var(--blue); }
-      .dim-cap::before { background: var(--blue); }
-      .dim-exp { color: var(--red); }
-      .dim-exp::before { background: var(--red); }
-
-      .dim-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-      .dim-desc { font-size: 13px; line-height: 1.6; color: var(--ink-mid); }
-
-      .dim-legend { display: flex; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
-      .legend-it { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--ink-mid); }
-      .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
-
-      /* MATRIX */
-      .matrix { background: var(--paper-dim); padding-block: 120px; }
-      .matrix-layout {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
-      }
-      .matrix-grid {
-        display: grid; grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(3, 1fr); gap: 3px;
-      }
-      .mc {
-        border-radius: var(--r-sm); padding: 14px;
-        display: flex; flex-direction: column; justify-content: flex-end;
-        min-height: 96px;
-        transition: transform 0.18s;
-      }
-      .mc:hover { transform: scale(1.04); z-index: 1; position: relative; }
-      .mc-low  { background: var(--green-dim); border: 1px solid rgba(22,163,74,0.2); }
-      .mc-mid  { background: var(--amber-dim); border: 1px solid rgba(217,119,6,0.2); }
-      .mc-high { background: var(--red-dim);   border: 1px solid rgba(220,38,38,0.2); }
-      .mc-crit { background: rgba(220,38,38,0.22); border: 1px solid rgba(220,38,38,0.4); }
-      .mc-name    { font-size: 12px; font-weight: 700; line-height: 1.2; color: var(--ink); }
-      .mc-urgency { font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-top: 3px; opacity: 0.7; }
-
-      .ax { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-faint); }
-
-      .profile-list { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; }
-      .profile-it {
-        background: var(--white); border: 1px solid var(--border);
-        border-radius: var(--r-md); padding: 18px 22px;
-        display: flex; align-items: center; gap: 14px;
-      }
-      .profile-ic {
-        width: 36px; height: 36px; border-radius: var(--r-sm);
-        display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
-      }
-      .profile-it h4 { font-size: 14px; font-weight: 700; color: var(--ink); }
-      .profile-it p  { font-size: 13px; line-height: 1.5; color: var(--ink-mid); margin-top: 2px; }
-
-      /* BENEFITS */
-      .benefits { background: var(--dark); padding-block: 120px; }
-      .benefits-grid {
-        display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
-        border-radius: var(--r-xl); overflow: hidden;
-      }
-      .benefit {
-        background: var(--dark-3); padding: 36px 32px;
-        transition: background 0.2s;
-      }
-      .benefit:hover { background: #232325; }
-      .benefit-num {
-        font-size: 13px; font-weight: 800; color: var(--red);
-        margin-bottom: 18px; display: block;
-      }
-      .benefit-title { font-size: 14px; font-weight: 700; color: var(--d-text); margin-bottom: 10px; line-height: 1.3; }
-      .benefit-body  { font-size: 13px; line-height: 1.7; color: var(--d-muted); }
-
-      /* ENGAGE */
-      .engage { background: var(--paper); padding-block: 120px; }
-      .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; align-items: start; }
-      .tier {
-        background: var(--white); border: 1px solid var(--border);
-        border-radius: var(--r-xl); padding: 32px;
-        transition: transform 0.2s, box-shadow 0.2s;
-      }
-      .tier:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0,0,0,0.08); }
-      .tier-feat {
-        background: var(--ink); border-color: transparent;
-        box-shadow: 0 16px 48px rgba(0,0,0,0.2); transform: scale(1.025);
-      }
-      .tier-feat:hover { transform: scale(1.025) translateY(-3px); }
-      .tier-badge {
-        font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
-        background: var(--red); color: var(--white);
-        border-radius: 6px; padding: 3px 8px;
-        display: inline-block; margin-bottom: 16px;
-      }
-      .tier-name {
-        font-size: clamp(20px,2.2vw,26px); font-weight: 800; letter-spacing: -0.04em;
-        color: var(--ink); margin-bottom: 8px;
-      }
-      .tier-feat .tier-name { color: var(--d-text); }
-      .tier-desc { font-size: 13px; line-height: 1.6; color: var(--ink-mid); margin-bottom: 24px; }
-      .tier-feat .tier-desc { color: var(--d-muted); }
-      .tier-features { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-      .tier-features li {
-        font-size: 13px; color: var(--ink);
-        display: flex; gap: 10px; align-items: flex-start; line-height: 1.45;
-      }
-      .tier-feat .tier-features li { color: rgba(255,255,255,0.7); }
-      .tier-features li::before { content: '✓'; color: var(--red); font-weight: 800; flex-shrink: 0; font-size: 12px; margin-top: 1px; }
-      .tier-btn {
-        display: block; text-align: center;
-        font-size: 14px; font-weight: 600; border-radius: var(--r-full); padding: 12px;
-        text-decoration: none; transition: all 0.15s;
-      }
-      .t-outline { border: 1.5px solid var(--border); color: var(--ink); background: transparent; }
-      .t-outline:hover { border-color: var(--ink-mid); }
-      .t-solid  { background: var(--red); color: var(--white); border: none; }
-      .t-solid:hover { opacity: 0.85; }
-
-      /* CTA */
-      .cta-section {
-        background: var(--red); padding-block: 96px;
-        text-align: center; position: relative; overflow: hidden;
-      }
-      .cta-section::before {
-        content: ''; position: absolute; inset: 0;
-        background: radial-gradient(ellipse 70% 80% at 50% 110%, rgba(0,0,0,0.22) 0%, transparent 70%);
-        pointer-events: none;
-      }
-      .cta-section h2 {
-        font-size: clamp(28px,4vw,50px); font-weight: 800; letter-spacing: -0.04em;
-        color: var(--white); margin-bottom: 16px;
-      }
-      .cta-section > .wrap > p {
-        font-size: 18px; color: rgba(255,255,255,0.78);
-        line-height: 1.65; max-width: 500px; margin-inline: auto;
-        margin-bottom: 40px;
-      }
-      .cta-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 20px; }
-
-      /* FOOTER */
-      footer {
-        background: var(--dark); padding-block: 48px 28px;
-        border-top: 1px solid var(--d-border);
-      }
-      .footer-inner {
-        display: flex; justify-content: space-between; align-items: center;
-        flex-wrap: wrap; gap: 12px;
-      }
-      .footer-brand { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.5); }
-      .footer-brand em { font-style: normal; color: var(--red); }
-      .footer-tagline { font-size: 13px; color: rgba(255,255,255,0.35); font-style: italic; }
-      .footer-copy    { font-size: 12px; color: rgba(255,255,255,0.25); }
+    /* STAT STRIP */
+    .stat-strip {
+      background: var(--off-black);
+      padding: 48px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 0 32px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-number {
+      font-size: clamp(36px, 5vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-number span { color: var(--accent); }
+    .stat-label {
+      font-size: 13px; color: rgba(255,255,255,0.5);
+      line-height: 1.4;
+      font-weight: 400;
     }
 
-    @layer animations {
-      .fade-up {
-        opacity: 0; transform: translateY(20px);
-        transition: opacity 0.55s ease, transform 0.55s ease;
-        transition-delay: var(--delay, 0ms);
-      }
-      .fade-up.visible { opacity: 1; transform: none; }
+    /* PROBLEM */
+    .problem {
+      background: var(--light-gray);
+      padding: 120px 0;
+    }
+    .section-eyebrow {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 16px;
+      display: block;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700; letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--off-black);
+      margin-bottom: 20px;
+    }
+    .section-body {
+      font-size: 17px; line-height: 1.7;
+      color: var(--mid-gray);
+      max-width: 580px;
+    }
+    .problem-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .problem-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .problem-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex; gap: 16px; align-items: flex-start;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+    .problem-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .icon-red { background: rgba(255,59,48,0.1); }
+    .icon-amber { background: rgba(255,149,0,0.1); }
+    .icon-blue { background: rgba(0,113,227,0.1); }
+    .problem-card-title {
+      font-size: 15px; font-weight: 600; color: var(--off-black);
+      margin-bottom: 4px; letter-spacing: -0.2px;
+    }
+    .problem-card-body {
+      font-size: 13px; line-height: 1.5; color: var(--mid-gray);
+    }
+
+    /* METHODOLOGY */
+    .method {
+      background: var(--black);
+      padding: 120px 0;
+    }
+    .method-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .method-header .section-title { color: var(--white); }
+    .method-header .section-body { color: rgba(255,255,255,0.5); margin: 0 auto; }
+
+    .method-steps {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      background: rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .method-step {
+      background: var(--dark-gray);
+      padding: 40px;
+      transition: background 0.2s;
+    }
+    .method-step:hover { background: #353537; }
+    .step-tag {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 16px; display: block;
+    }
+    .step-title {
+      font-size: 21px; font-weight: 600;
+      color: var(--white); letter-spacing: -0.3px;
+      margin-bottom: 12px; line-height: 1.2;
+    }
+    .step-body {
+      font-size: 14px; line-height: 1.6;
+      color: rgba(255,255,255,0.5);
+    }
+    .step-detail {
+      margin-top: 16px;
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .tag {
+      font-size: 11px; font-weight: 500;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.6);
+      border-radius: 6px;
+      padding: 4px 9px;
+    }
+    .tag-accent {
+      background: rgba(0,113,227,0.2);
+      color: #4facfe;
+    }
+
+    /* DIMENSIONS */
+    .dimensions {
+      background: var(--white);
+      padding: 120px 0;
+    }
+    .dimensions-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+    .dim-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .dim-card {
+      border-radius: var(--radius);
+      padding: 28px;
+      border: 1px solid rgba(0,0,0,0.07);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .dim-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+    .dim-card.capacity { background: #f0f7ff; border-color: rgba(0,113,227,0.12); }
+    .dim-card.exposure { background: #fff5f5; border-color: rgba(255,59,48,0.12); }
+    .dim-number {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px; display: block;
+    }
+    .capacity .dim-number { color: var(--accent); }
+    .exposure .dim-number { color: var(--red); }
+    .dim-name {
+      font-size: 16px; font-weight: 600; color: var(--off-black);
+      letter-spacing: -0.2px; margin-bottom: 6px;
+    }
+    .dim-desc {
+      font-size: 13px; line-height: 1.5; color: var(--mid-gray);
+    }
+
+    .dim-legend {
+      display: flex; gap: 24px; justify-content: center;
+      margin-bottom: 40px;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--mid-gray);
+    }
+    .legend-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .dot-blue { background: var(--accent); }
+    .dot-red { background: var(--red); }
+
+    /* MATRIX */
+    .matrix-section {
+      background: var(--light-gray);
+      padding: 120px 0;
+    }
+    .matrix-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 4px;
+      aspect-ratio: 1;
+    }
+    .matrix-cell {
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 90px;
+      transition: transform 0.2s;
+      cursor: default;
+    }
+    .matrix-cell:hover { transform: scale(1.04); z-index: 1; position: relative; }
+    .matrix-cell.low { background: rgba(52,199,89,0.15); border: 1px solid rgba(52,199,89,0.25); }
+    .matrix-cell.mid { background: rgba(255,149,0,0.12); border: 1px solid rgba(255,149,0,0.25); }
+    .matrix-cell.high { background: rgba(255,59,48,0.12); border: 1px solid rgba(255,59,48,0.22); }
+    .matrix-cell.critical { background: rgba(255,59,48,0.25); border: 1px solid rgba(255,59,48,0.4); }
+    .cell-name {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: -0.1px;
+      line-height: 1.2;
+      color: var(--off-black);
+    }
+    .cell-urgency {
+      font-size: 9px; font-weight: 600; letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-top: 3px;
+      opacity: 0.6;
+    }
+    .matrix-axes {
+      position: relative;
+    }
+    .axis-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--mid-gray);
+      display: block;
+    }
+    .axis-x {
+      text-align: center;
+      margin-top: 8px;
+    }
+    .axis-y-wrapper {
+      display: flex; gap: 8px; align-items: center;
+    }
+    .axis-y {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      flex-shrink: 0;
+    }
+
+    /* PROFILES */
+    .profile-cards {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .profile-card {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+      display: flex; align-items: center; gap: 16px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .profile-badge {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .profile-card h4 { font-size: 15px; font-weight: 600; color: var(--off-black); }
+    .profile-card p { font-size: 13px; color: var(--mid-gray); line-height: 1.4; margin-top: 2px; }
+
+    /* BENEFITS */
+    .benefits {
+      background: var(--black);
+      padding: 120px 0;
+    }
+    .benefits-header {
+      text-align: center; margin-bottom: 72px;
+    }
+    .benefits-header .section-title { color: var(--white); }
+    .benefits-header .section-body { color: rgba(255,255,255,0.5); margin: 0 auto; }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .benefit-card {
+      background: var(--dark-gray);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .benefit-card:hover {
+      transform: translateY(-4px);
+      background: #353537;
+    }
+    .benefit-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(0,113,227,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 20px;
+    }
+    .benefit-title {
+      font-size: 18px; font-weight: 600; color: var(--white);
+      letter-spacing: -0.3px; margin-bottom: 10px;
+    }
+    .benefit-body {
+      font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.5);
+    }
+
+    /* ENGAGE */
+    .engage {
+      background: var(--white);
+      padding: 120px 0;
+    }
+    .engage-header {
+      text-align: center; margin-bottom: 72px;
+    }
+    .tiers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+    .tier {
+      border-radius: var(--radius);
+      padding: 32px;
+      border: 1px solid rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .tier:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+    }
+    .tier.featured {
+      background: var(--off-black);
+      border-color: transparent;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      transform: scale(1.03);
+    }
+    .tier.featured:hover {
+      transform: scale(1.03) translateY(-4px);
+    }
+    .tier-badge {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--accent); color: var(--white);
+      border-radius: 6px; padding: 3px 8px;
+      display: inline-block; margin-bottom: 16px;
+    }
+    .tier-name {
+      font-size: 22px; font-weight: 700;
+      color: var(--off-black); letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+    .tier.featured .tier-name { color: var(--white); }
+    .tier-desc {
+      font-size: 13px; line-height: 1.5; color: var(--mid-gray);
+      margin-bottom: 24px;
+    }
+    .tier.featured .tier-desc { color: rgba(255,255,255,0.5); }
+    .tier-features {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 10px;
+      margin-bottom: 28px;
+    }
+    .tier-features li {
+      font-size: 13px; color: var(--off-black);
+      display: flex; gap: 8px; align-items: flex-start;
+      line-height: 1.4;
+    }
+    .tier.featured .tier-features li { color: rgba(255,255,255,0.7); }
+    .tier-features li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700; flex-shrink: 0;
+      font-size: 12px; margin-top: 1px;
+    }
+    .tier-btn {
+      display: block; text-align: center;
+      font-size: 15px; font-weight: 500;
+      border-radius: 980px;
+      padding: 12px 24px;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .tier-btn.outline {
+      border: 1.5px solid rgba(0,0,0,0.15);
+      color: var(--accent);
+      background: transparent;
+    }
+    .tier-btn.outline:hover { background: var(--accent-light); }
+    .tier-btn.solid {
+      background: var(--accent); color: var(--white); border: none;
+    }
+    .tier-btn.solid:hover { background: var(--accent-hover); }
+
+    /* CTA SECTION */
+    .cta-section {
+      background: linear-gradient(135deg, #0071e3 0%, #004aad 100%);
+      padding: 100px 0;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700; letter-spacing: -0.04em;
+      color: var(--white); margin-bottom: 16px;
+    }
+    .cta-section p {
+      font-size: 18px; color: rgba(255,255,255,0.75);
+      margin-bottom: 40px; max-width: 520px; margin-left: auto; margin-right: auto;
+      line-height: 1.6;
+    }
+    .cta-section .cta-sub {
+      font-size: 13px; color: rgba(255,255,255,0.45);
+      margin-top: 20px; margin-bottom: 0;
+    }
+    .btn-white {
+      display: inline-block;
+      font-size: 16px; font-weight: 500;
+      background: var(--white); color: var(--accent);
+      border: none; border-radius: 980px;
+      padding: 14px 32px; cursor: pointer; text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .btn-white:hover { background: rgba(255,255,255,0.92); transform: scale(1.02); }
+
+    /* FOOTER */
+    footer {
+      background: var(--off-black);
+      padding: 48px 0 32px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo {
+      font-size: 14px; font-weight: 600;
+      color: rgba(255,255,255,0.7);
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-copy {
+      font-size: 12px; color: rgba(255,255,255,0.3);
+    }
+    .footer-tagline {
+      font-size: 12px; color: rgba(255,255,255,0.25);
+      font-style: italic;
+    }
+
+    /* DIVIDER */
+    .divider {
+      width: 40px; height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin: 20px 0;
     }
 
     /* RESPONSIVE */
-    @media (max-width: 900px) {
-      .problem-layout  { grid-template-columns: 1fr; gap: 48px; }
-      .instruments     { grid-template-columns: 1fr; }
-      .matrix-layout   { grid-template-columns: 1fr; gap: 48px; }
-      .benefits-grid   { grid-template-columns: 1fr 1fr; }
-      .tiers           { grid-template-columns: 1fr; }
-      .tier-feat       { transform: none; }
-      .tier-feat:hover { transform: translateY(-3px); }
-      .stats-grid      { grid-template-columns: 1fr; }
-      .stat            { border-right: none; border-bottom: 1px solid var(--d-border); }
-      .stat:last-child { border-bottom: none; }
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .container, .container-wide { padding: 0 20px; }
+      .hero { padding: 100px 0 72px; }
+      .stat-grid { grid-template-columns: 1fr; gap: 32px; }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 0 32px; }
+      .stat-item:last-child { border-bottom: none; }
+      .problem-layout { grid-template-columns: 1fr; gap: 48px; }
+      .method-steps { grid-template-columns: 1fr; }
+      .dim-grid { grid-template-columns: 1fr; }
+      .matrix-layout { grid-template-columns: 1fr; gap: 48px; }
+      .benefits-grid { grid-template-columns: 1fr; }
+      .tiers { grid-template-columns: 1fr; }
+      .tier.featured { transform: none; }
+      .tier.featured:hover { transform: translateY(-4px); }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .hero-actions { flex-direction: column; align-items: center; }
     }
-    @media (max-width: 640px) {
-      .dim-panel.active { grid-template-columns: 1fr; }
-      .benefits-grid    { grid-template-columns: 1fr; }
-      .hero-actions     { flex-direction: column; align-items: center; }
-      .hero             { padding-block: 120px 80px; }
-      .nav              { padding-inline: 20px; }
+
+    @media (max-width: 600px) {
+      .dim-grid { grid-template-columns: 1fr; }
+      .matrix-grid { font-size: 10px; }
+    }
+
+    /* SCROLL ANIMATIONS */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="nav" id="nav">
-  <a class="nav-brand" href="#">The Drowning<em> Test™</em></a>
+<nav>
+  <a class="nav-logo" href="#">The Drowning<span> Test™</span></a>
   <a class="nav-cta" href="#engage">Request a Briefing</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="wrap">
+  <div class="container">
     <div class="fade-up visible">
-      <span class="hero-tag">Narrative Resilience Methodology</span>
+      <span class="hero-eyebrow">Narrative Resilience Methodology</span>
       <h1>Can your organisation<br>survive the <em>flood</em>?</h1>
       <p class="hero-sub">
         In an era where AI has made coordinated narrative attacks nearly free to produce,
         institutional defence still costs dearly. We stress-test your resilience — before an adversary does.
       </p>
       <div class="hero-actions">
-        <a href="#engage" class="btn btn-red">Get Your Free Assessment Preview</a>
-        <a href="#methodology" class="btn btn-ghost">See How It Works</a>
+        <a href="#engage" class="btn-primary">Get Your Free Assessment Preview</a>
+        <a href="#methodology" class="btn-secondary">See How It Works</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- STATS -->
-<section class="stats">
-  <div class="wrap">
-    <div class="stats-grid fade-up">
-      <div class="stat">
-        <div class="stat-num">~<mark>€0</mark></div>
-        <div class="stat-label">Cost to generate a coordinated AI-assisted narrative attack at scale today</div>
+<!-- STAT STRIP -->
+<section class="stat-strip">
+  <div class="container">
+    <div class="stat-grid fade-up">
+      <div class="stat-item">
+        <div class="stat-number">~<span>€0</span></div>
+        <div class="stat-label">Cost to generate a coordinated AI-assisted<br>narrative attack at scale today</div>
       </div>
-      <div class="stat">
-        <div class="stat-num">22</div>
-        <div class="stat-label">Diagnostic questions across 11 resilience dimensions — capacity and exposure</div>
+      <div class="stat-item">
+        <div class="stat-number">22</div>
+        <div class="stat-label">Diagnostic questions across 11 resilience dimensions —<br>capacity and exposure</div>
       </div>
-      <div class="stat">
-        <div class="stat-num"><mark>9</mark> positions</div>
-        <div class="stat-label">Named vulnerability profiles mapping exactly where your organisation stands</div>
+      <div class="stat-item">
+        <div class="stat-number"><span>9</span> positions</div>
+        <div class="stat-label">Named vulnerability profiles mapping exactly<br>where your organisation stands</div>
       </div>
     </div>
   </div>
@@ -512,42 +706,42 @@
 
 <!-- PROBLEM -->
 <section class="problem">
-  <div class="wrap">
+  <div class="container">
     <div class="problem-layout">
       <div class="fade-up">
-        <span class="eyebrow eyebrow-red">The Problem</span>
-        <h2 class="sh sh-ink">The asymmetry has never been more dangerous.</h2>
-        <div class="rule"></div>
-        <p class="sp">
+        <span class="section-eyebrow">The Problem</span>
+        <h2 class="section-title">The asymmetry has never been more dangerous.</h2>
+        <div class="divider"></div>
+        <p class="section-body">
           We are in the Slopaganda era. Generative AI has collapsed the cost of producing false narratives,
           synthetic media, and coordinated influence campaigns to near-zero. Meanwhile, institutional
           defences remain expensive, slow, and reactive — built for a world that no longer exists.
         </p>
-        <p class="sp" style="margin-top:16px;">
+        <p class="section-body" style="margin-top:16px;">
           Most organisations only discover their narrative vulnerabilities in the middle of a crisis.
           That is exactly the wrong moment to learn.
         </p>
       </div>
-      <div class="problem-stack fade-up">
+      <div class="problem-cards fade-up">
         <div class="problem-card">
-          <span class="p-icon p-icon-red">⚡</span>
+          <div class="problem-icon icon-red">⚡</div>
           <div>
-            <div class="p-title">Speed Asymmetry</div>
-            <div class="p-body">Attackers can flood the zone in minutes. Institutional response cycles take hours or days — long after the damage is done.</div>
+            <div class="problem-card-title">Speed Asymmetry</div>
+            <div class="problem-card-body">Attackers can flood the zone in minutes. Institutional response cycles take hours or days — long after the damage is done.</div>
           </div>
         </div>
         <div class="problem-card">
-          <span class="p-icon p-icon-amber">🎭</span>
+          <div class="problem-icon icon-amber">🎭</div>
           <div>
-            <div class="p-title">The Liar's Dividend</div>
-            <div class="p-body">Deepfakes and synthetic content erode trust in all media. Even true statements are doubted when institutional credibility is low.</div>
+            <div class="problem-card-title">The Liar's Dividend</div>
+            <div class="problem-card-body">Deepfakes and synthetic content erode trust in all media. Even true statements are doubted when institutional credibility is low.</div>
           </div>
         </div>
         <div class="problem-card">
-          <span class="p-icon p-icon-blue">🧠</span>
+          <div class="problem-icon icon-blue">🧠</div>
           <div>
-            <div class="p-title">No Rehearsal Infrastructure</div>
-            <div class="p-body">Existing training, legal review, and comms guidelines weren't designed for adversarial AI-assisted narrative warfare. There is no fire drill for this.</div>
+            <div class="problem-card-title">No Rehearsal Infrastructure</div>
+            <div class="problem-card-body">Existing training, legal review, and comms guidelines weren't designed for adversarial AI-assisted narrative warfare. There is no fire drill for this.</div>
           </div>
         </div>
       </div>
@@ -557,69 +751,69 @@
 
 <!-- METHODOLOGY -->
 <section class="method" id="methodology">
-  <div class="wrap">
-    <div class="section-hd section-hd-c fade-up">
-      <span class="eyebrow eyebrow-dim">The Methodology</span>
-      <h2 class="sh sh-white">Two instruments.<br>One integrated system.</h2>
-      <p class="sp sp-dim" style="margin:16px auto 0;">
+  <div class="container">
+    <div class="method-header fade-up">
+      <span class="section-eyebrow" style="color: var(--accent);">The Methodology</span>
+      <h2 class="section-title" style="color: var(--white);">Two instruments.<br>One integrated system.</h2>
+      <p class="section-body" style="color: rgba(255,255,255,0.5);">
         The Drowning Test™ combines structured adversarial foresight with immersive crisis simulation —
         grounded in inoculation theory, designed for institutional decision-makers.
       </p>
     </div>
-    <div class="instruments fade-up">
-      <div class="instrument">
-        <span class="instr-tag">Instrument 01 — FORECAST</span>
-        <div class="instr-title">Adversarial Foresight:<br>Know your attackers before they move.</div>
-        <p class="instr-body">
+    <div class="method-steps fade-up">
+      <div class="method-step">
+        <span class="step-tag">Instrument 01 — FORECAST</span>
+        <div class="step-title">Adversarial Foresight:<br>Know your attackers before they move.</div>
+        <p class="step-body">
           FORECAST is a five-stage structured intelligence process that maps the realistic adversarial landscape,
           develops attacker personas, stress-tests your content against 18 attack combinations,
           and designs pre-emptive counter-narratives.
         </p>
-        <div class="tag-row">
-          <span class="tag tag-r">Actor Mapping</span>
-          <span class="tag tag-r">Persona Development</span>
-          <span class="tag tag-r">Content Stress-Testing</span>
-          <span class="tag tag-r">Pre-emption Design</span>
-          <span class="tag tag-r">AI-Assisted Simulation</span>
+        <div class="step-detail">
+          <span class="tag tag-accent">Actor Mapping</span>
+          <span class="tag tag-accent">Persona Development</span>
+          <span class="tag tag-accent">Content Stress-Testing</span>
+          <span class="tag tag-accent">Pre-emption Design</span>
+          <span class="tag tag-accent">AI-Assisted Simulation</span>
         </div>
       </div>
-      <div class="instrument">
-        <span class="instr-tag">Instrument 02 — FLOOD</span>
-        <div class="instr-title">Crisis Simulation:<br>Rehearse the worst case, calmly.</div>
-        <p class="instr-body">
+      <div class="method-step">
+        <span class="step-tag">Instrument 02 — FLOOD</span>
+        <div class="step-title">Crisis Simulation:<br>Rehearse the worst case, calmly.</div>
+        <p class="step-body">
           FLOOD is a facilitated crisis simulation drill that places your leadership team inside a live narrative
           attack scenario. Calibrated to your actual exposure profile. Debrief produces four actionable deliverables
           your organisation keeps forever.
         </p>
-        <div class="tag-row">
-          <span class="tag tag-r">72-Hour Decision Memo</span>
-          <span class="tag tag-r">Minimum Evidence Standard</span>
-          <span class="tag tag-r">Deliberation Protocol</span>
-          <span class="tag tag-r">KNOW Framework</span>
+        <div class="step-detail">
+          <span class="tag tag-accent">72-Hour Decision Memo</span>
+          <span class="tag tag-accent">Minimum Evidence Standard</span>
+          <span class="tag tag-accent">Deliberation Protocol</span>
+          <span class="tag tag-accent">KNOW Framework</span>
         </div>
       </div>
-    </div>
-    <div class="diagnostic fade-up" style="margin-top:3px;">
-      <span class="instr-tag">Foundation — The Diagnostic Instrument</span>
-      <div class="instr-title">22 questions. 11 dimensions. One precise picture of where you stand.</div>
-      <p class="instr-body">
-        Before any engagement begins, we run a structured 22-question diagnostic across two axes:
-        <strong style="color:rgba(255,255,255,0.78);">Capacity</strong> (what your organisation can do)
-        and <strong style="color:rgba(255,255,255,0.78);">Exposure</strong> (what your adversaries are likely to do).
-        The result is a precise matrix position, a set of contradiction flags, and a named vulnerability archetype.
-      </p>
-      <div class="tag-row" style="margin-top:20px;">
-        <span class="tag">Tempo Gap</span>
-        <span class="tag">Verification Cost</span>
-        <span class="tag">Liar's Dividend</span>
-        <span class="tag">Narrative Pre-emption</span>
-        <span class="tag">Epistemic Infrastructure</span>
-        <span class="tag">Attention Economy</span>
-        <span class="tag">Adversarial Targeting</span>
-        <span class="tag">Narrative Asset Inventory</span>
-        <span class="tag">Flood Velocity</span>
-        <span class="tag">Actor Sophistication</span>
-        <span class="tag">Narrative Temperature</span>
+      <div class="method-step" style="grid-column: 1 / -1;">
+        <span class="step-tag">Foundation — The Diagnostic Instrument</span>
+        <div class="step-title">22 questions. 11 dimensions. One precise picture of where you stand.</div>
+        <p class="step-body">
+          Before any engagement begins, we run a structured 22-question diagnostic across two axes:
+          <strong style="color: rgba(255,255,255,0.75);">Capacity</strong> (what your organisation can do)
+          and <strong style="color: rgba(255,255,255,0.75);">Exposure</strong> (what your adversaries are likely to do).
+          The result is a precise matrix position, a set of contradiction flags, and a named vulnerability archetype.
+        </p>
+        <div class="step-detail" style="margin-top: 20px;">
+          <span class="tag">Tempo Gap</span>
+          <span class="tag">Verification Cost</span>
+          <span class="tag">Liar's Dividend</span>
+          <span class="tag">Narrative Pre-emption</span>
+          <span class="tag">Epistemic Infrastructure</span>
+          <span class="tag">Attention Economy</span>
+          <span class="tag">Adversarial Targeting</span>
+          <span class="tag">Narrative Asset Inventory</span>
+          <span class="tag">Flood Velocity</span>
+          <span class="tag">Actor Sophistication</span>
+          <span class="tag">Narrative Temperature</span>
+        </div>
       </div>
     </div>
   </div>
@@ -627,117 +821,109 @@
 
 <!-- DIMENSIONS -->
 <section class="dimensions">
-  <div class="wrap">
-    <div class="section-hd section-hd-c fade-up">
-      <span class="eyebrow eyebrow-ink">The 11 Dimensions</span>
-      <h2 class="sh sh-ink">Every vulnerability has a name.<br>We find them all.</h2>
-      <p class="sp" style="margin:16px auto 0;">
+  <div class="container-wide">
+    <div class="dimensions-header fade-up">
+      <span class="section-eyebrow">The 11 Dimensions</span>
+      <h2 class="section-title">Every vulnerability has a name.<br>We find them all.</h2>
+      <p class="section-body" style="margin: 0 auto; text-align: center;">
         Six dimensions measure what your organisation is capable of. Five measure what it is exposed to.
         Together, they produce a complete picture of narrative resilience.
       </p>
     </div>
-    <div class="fade-up">
-      <div class="dim-legend">
-        <div class="legend-it"><span class="legend-dot" style="background:var(--blue);"></span>Capacity — internal capability</div>
-        <div class="legend-it"><span class="legend-dot" style="background:var(--red);"></span>Exposure — external threat conditions</div>
+    <div class="dim-legend fade-up">
+      <div class="legend-item"><span class="legend-dot dot-blue"></span> Capacity Dimensions — internal capability</div>
+      <div class="legend-item"><span class="legend-dot dot-red"></span> Exposure Dimensions — external threat conditions</div>
+    </div>
+    <div class="dim-grid fade-up">
+      <div class="dim-card capacity">
+        <span class="dim-number">D1 — Capacity</span>
+        <div class="dim-name">Tempo Gap</div>
+        <div class="dim-desc">Can you respond faster than a narrative attack spreads? Measures your decision and publication speed.</div>
       </div>
-      <div class="dim-tabs">
-        <button class="dim-tab active" data-panel="cap">Capacity (6)</button>
-        <button class="dim-tab" data-panel="exp">Exposure (5)</button>
+      <div class="dim-card capacity">
+        <span class="dim-number">D2 — Capacity</span>
+        <div class="dim-name">Verification Cost</div>
+        <div class="dim-desc">Can you quickly establish what is true? Measures internal access to evidence and verification processes.</div>
       </div>
-      <div class="dim-panel active" id="panel-cap">
-        <div class="dim-card">
-          <div class="dim-num dim-cap">D1 — Capacity</div>
-          <div class="dim-name">Tempo Gap</div>
-          <div class="dim-desc">Can you respond faster than a narrative attack spreads? Measures your decision and publication speed.</div>
-        </div>
-        <div class="dim-card">
-          <div class="dim-num dim-cap">D2 — Capacity</div>
-          <div class="dim-name">Verification Cost</div>
-          <div class="dim-desc">Can you quickly establish what is true? Measures internal access to evidence and verification processes.</div>
-        </div>
-        <div class="dim-card">
-          <div class="dim-num dim-cap">D3 — Capacity</div>
-          <div class="dim-name">Liar's Dividend</div>
-          <div class="dim-desc">Do your audiences trust you when you speak? Measures baseline credibility with key stakeholder groups.</div>
-        </div>
-        <div class="dim-card">
-          <div class="dim-num dim-cap">D4 — Capacity</div>
-          <div class="dim-name">Narrative Pre-emption</div>
-          <div class="dim-desc">Do you anticipate attacks before they land? Measures your adversarial foresight and preparation.</div>
-        </div>
-        <div class="dim-card">
-          <div class="dim-num dim-cap">D5 — Capacity</div>
-          <div class="dim-name">Epistemic Infrastructure</div>
-          <div class="dim-desc">Do documented protocols guide your crisis response? Measures procedural readiness under pressure.</div>
-        </div>
-        <div class="dim-card">
-          <div class="dim-num dim-cap">D6 — Capacity</div>
-          <div class="dim-name">Attention Economy</div>
-          <div class="dim-desc">Can you reach your audiences directly in a crisis? Measures owned channel strength and reach.</div>
-        </div>
+      <div class="dim-card capacity">
+        <span class="dim-number">D3 — Capacity</span>
+        <div class="dim-name">Liar's Dividend</div>
+        <div class="dim-desc">Do your audiences trust you when you speak? Measures baseline credibility with key stakeholder groups.</div>
       </div>
-      <div class="dim-panel" id="panel-exp">
-        <div class="dim-card">
-          <div class="dim-num dim-exp">D7 — Exposure</div>
-          <div class="dim-name">Adversarial Targeting Profile</div>
-          <div class="dim-desc">Who has incentive to attack you, and how active are they? Identifies motivated actors in your landscape.</div>
-        </div>
-        <div class="dim-card">
-          <div class="dim-num dim-exp">D8 — Exposure</div>
-          <div class="dim-name">Narrative Asset Inventory</div>
-          <div class="dim-desc">How much narrative material do adversaries have to work with? Measures the exploitability of your public footprint.</div>
-        </div>
-        <div class="dim-card">
-          <div class="dim-num dim-exp">D9 — Exposure</div>
-          <div class="dim-name">Flood Velocity Calibration</div>
-          <div class="dim-desc">How fast does information — true or false — spread in your domain? Measures the amplification environment.</div>
-        </div>
-        <div class="dim-card">
-          <div class="dim-num dim-exp">D10 — Exposure</div>
-          <div class="dim-name">Actor Sophistication</div>
-          <div class="dim-desc">Are your likely adversaries resourced and coordinated? Distinguishes amateur actors from professional campaigns.</div>
-        </div>
-        <div class="dim-card">
-          <div class="dim-num dim-exp">D11 — Exposure</div>
-          <div class="dim-name">Narrative Temperature</div>
-          <div class="dim-desc">Is the broader information environment currently hot or cold? Measures ambient hostility toward your organisation.</div>
-        </div>
+      <div class="dim-card capacity">
+        <span class="dim-number">D4 — Capacity</span>
+        <div class="dim-name">Narrative Pre-emption</div>
+        <div class="dim-desc">Do you anticipate attacks before they land? Measures your adversarial foresight and preparation.</div>
+      </div>
+      <div class="dim-card capacity">
+        <span class="dim-number">D5 — Capacity</span>
+        <div class="dim-name">Epistemic Infrastructure</div>
+        <div class="dim-desc">Do documented protocols guide your crisis response? Measures procedural readiness under pressure.</div>
+      </div>
+      <div class="dim-card capacity">
+        <span class="dim-number">D6 — Capacity</span>
+        <div class="dim-name">Attention Economy</div>
+        <div class="dim-desc">Can you reach your audiences directly in a crisis? Measures owned channel strength and reach.</div>
+      </div>
+      <div class="dim-card exposure">
+        <span class="dim-number">D7 — Exposure</span>
+        <div class="dim-name">Adversarial Targeting Profile</div>
+        <div class="dim-desc">Who has incentive to attack you, and how active are they? Identifies motivated actors in your landscape.</div>
+      </div>
+      <div class="dim-card exposure">
+        <span class="dim-number">D8 — Exposure</span>
+        <div class="dim-name">Narrative Asset Inventory</div>
+        <div class="dim-desc">How much narrative material do adversaries have to work with? Measures the exploitability of your public footprint.</div>
+      </div>
+      <div class="dim-card exposure">
+        <span class="dim-number">D9 — Exposure</span>
+        <div class="dim-name">Flood Velocity Calibration</div>
+        <div class="dim-desc">How fast does information — true or false — spread in your domain? Measures the amplification environment.</div>
+      </div>
+      <div class="dim-card exposure">
+        <span class="dim-number">D10 — Exposure</span>
+        <div class="dim-name">Actor Sophistication</div>
+        <div class="dim-desc">Are your likely adversaries resourced and coordinated? Distinguishes amateur actors from professional campaigns.</div>
+      </div>
+      <div class="dim-card exposure">
+        <span class="dim-number">D11 — Exposure</span>
+        <div class="dim-name">Narrative Temperature</div>
+        <div class="dim-desc">Is the broader information environment currently hot or cold? Measures ambient hostility toward your organisation.</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- MATRIX -->
-<section class="matrix">
-  <div class="wrap">
+<section class="matrix-section">
+  <div class="container">
     <div class="matrix-layout">
       <div class="fade-up">
-        <span class="eyebrow eyebrow-ink">The 3×3 Matrix</span>
-        <h2 class="sh sh-ink">Nine positions.<br>One honest answer.</h2>
-        <div class="rule"></div>
-        <p class="sp">
+        <span class="section-eyebrow">The 3×3 Matrix</span>
+        <h2 class="section-title">Nine positions.<br>One honest answer.</h2>
+        <div class="divider"></div>
+        <p class="section-body">
           Your diagnostic scores map to one of nine named positions in the Capacity × Exposure matrix —
           from "The Prepared Observer" (high capacity, low exposure) to "The Open Wound"
           (low capacity, high exposure). Each position carries a precise urgency indicator and a tailored engagement path.
         </p>
-        <div class="profile-list">
-          <div class="profile-it">
-            <div class="profile-ic" style="background:var(--green-dim);">🛡</div>
+        <div class="profile-cards" style="margin-top: 32px;">
+          <div class="profile-card">
+            <div class="profile-badge" style="background: rgba(52,199,89,0.12); color: var(--green);">🛡</div>
             <div>
               <h4>Resilient Profile</h4>
               <p>Strong internal capacity to detect, verify, and respond. Sufficient for lower-exposure environments.</p>
             </div>
           </div>
-          <div class="profile-it">
-            <div class="profile-ic" style="background:var(--amber-dim);">⚠️</div>
+          <div class="profile-card">
+            <div class="profile-badge" style="background: rgba(255,149,0,0.12); color: var(--amber);">⚠️</div>
             <div>
               <h4>Exposed Profile</h4>
               <p>Moderate capacity with identifiable gaps. Elevated targeting or velocity creates meaningful risk.</p>
             </div>
           </div>
-          <div class="profile-it">
-            <div class="profile-ic" style="background:var(--red-dim);">🌊</div>
+          <div class="profile-card">
+            <div class="profile-badge" style="background: rgba(255,59,48,0.12); color: var(--red);">🌊</div>
             <div>
               <h4>Submerged Profile</h4>
               <p>Critical capacity deficit. Any coordinated attack at current exposure levels poses serious institutional risk.</p>
@@ -746,21 +932,28 @@
         </div>
       </div>
       <div class="fade-up">
-        <span class="ax" style="display:block;text-align:right;margin-bottom:8px;">↑ EXPOSURE (high)</span>
-        <div class="matrix-grid">
-          <div class="mc mc-high"><span class="mc-name">Structural Fatigue</span><span class="mc-urgency" style="color:var(--red)">Critical</span></div>
-          <div class="mc mc-crit"><span class="mc-name">The Open Wound</span><span class="mc-urgency" style="color:var(--red)">Critical</span></div>
-          <div class="mc mc-high"><span class="mc-name">The Fire Walker</span><span class="mc-urgency" style="color:var(--red)">High</span></div>
-          <div class="mc mc-mid"><span class="mc-name">The Common Case</span><span class="mc-urgency" style="color:var(--amber)">Moderate</span></div>
-          <div class="mc mc-high"><span class="mc-name">The Slow Drain</span><span class="mc-urgency" style="color:var(--red)">High</span></div>
-          <div class="mc mc-mid"><span class="mc-name">The Alert Post</span><span class="mc-urgency" style="color:var(--amber)">Moderate</span></div>
-          <div class="mc mc-low"><span class="mc-name">The Quiet Corner</span><span class="mc-urgency" style="color:var(--green)">Monitor</span></div>
-          <div class="mc mc-mid"><span class="mc-name">The Latent Risk</span><span class="mc-urgency" style="color:var(--amber)">Low–Mod</span></div>
-          <div class="mc mc-low"><span class="mc-name">The Prepared Observer</span><span class="mc-urgency" style="color:var(--green)">Maintain</span></div>
+        <div style="margin-bottom: 8px;">
+          <span class="axis-label" style="text-align:right; display:block; margin-bottom: 4px; font-size:10px; color: var(--mid-gray);">↑ EXPOSURE (high)</span>
         </div>
-        <div style="display:flex;justify-content:space-between;margin-top:8px;">
-          <span class="ax">← Low Capacity</span>
-          <span class="ax">High Capacity →</span>
+        <div class="axis-y-wrapper">
+          <div class="matrix-grid">
+            <!-- Row 3 (high exposure, top) -->
+            <div class="matrix-cell high"><span class="cell-name">Structural Fatigue</span><span class="cell-urgency" style="color:var(--red)">Critical</span></div>
+            <div class="matrix-cell critical"><span class="cell-name">The Open Wound</span><span class="cell-urgency" style="color:var(--red)">Critical</span></div>
+            <div class="matrix-cell high"><span class="cell-name">The Fire Walker</span><span class="cell-urgency" style="color:var(--red)">High</span></div>
+            <!-- Row 2 (moderate exposure) -->
+            <div class="matrix-cell mid"><span class="cell-name">The Common Case</span><span class="cell-urgency" style="color:var(--amber)">Moderate</span></div>
+            <div class="matrix-cell high"><span class="cell-name">The Slow Drain</span><span class="cell-urgency" style="color:var(--red)">High</span></div>
+            <div class="matrix-cell mid"><span class="cell-name">The Alert Post</span><span class="cell-urgency" style="color:var(--amber)">Moderate</span></div>
+            <!-- Row 1 (low exposure, bottom) -->
+            <div class="matrix-cell low"><span class="cell-name">The Quiet Corner</span><span class="cell-urgency" style="color:var(--green)">Monitor</span></div>
+            <div class="matrix-cell mid"><span class="cell-name">The Latent Risk</span><span class="cell-urgency" style="color:var(--amber)">Low-Mod</span></div>
+            <div class="matrix-cell low"><span class="cell-name">The Prepared Observer</span><span class="cell-urgency" style="color:var(--green)">Maintain</span></div>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+          <span class="axis-label">← Low Capacity</span>
+          <span class="axis-label">High Capacity →</span>
         </div>
       </div>
     </div>
@@ -769,43 +962,43 @@
 
 <!-- BENEFITS -->
 <section class="benefits">
-  <div class="wrap">
-    <div class="section-hd section-hd-c fade-up">
-      <span class="eyebrow eyebrow-dim">Why It Works</span>
-      <h2 class="sh sh-white">Built on science.<br>Designed for the real world.</h2>
-      <p class="sp sp-dim" style="margin:16px auto 0;">
+  <div class="container-wide">
+    <div class="benefits-header fade-up">
+      <span class="section-eyebrow">Why It Works</span>
+      <h2 class="section-title" style="color: var(--white);">Built on science.<br>Designed for the real world.</h2>
+      <p class="section-body">
         The Drowning Test™ is the first commercially licensable narrative resilience methodology grounded in
         inoculation theory and calibrated for the post-AI information environment.
       </p>
     </div>
     <div class="benefits-grid fade-up">
-      <div class="benefit">
-        <span class="benefit-num">01</span>
+      <div class="benefit-card">
+        <div class="benefit-icon">🔬</div>
         <div class="benefit-title">Inoculation Theory Foundation</div>
         <div class="benefit-body">Pre-exposure to weakened forms of attack arguments builds genuine cognitive resistance. The methodology operationalises peer-reviewed science — not communications instinct.</div>
       </div>
-      <div class="benefit">
-        <span class="benefit-num">02</span>
+      <div class="benefit-card">
+        <div class="benefit-icon">🎯</div>
         <div class="benefit-title">Precise, Not Generic</div>
         <div class="benefit-body">No off-the-shelf media training. Every engagement is calibrated to your specific matrix position, exposure profile, and the actual actors in your landscape.</div>
       </div>
-      <div class="benefit">
-        <span class="benefit-num">03</span>
+      <div class="benefit-card">
+        <div class="benefit-icon">⚡</div>
         <div class="benefit-title">Before the Crisis, Not During</div>
         <div class="benefit-body">FORECAST delivers intelligence while there is still time to act. FLOOD builds the muscle memory your team needs before the pressure is real and the clocks are running.</div>
       </div>
-      <div class="benefit">
-        <span class="benefit-num">04</span>
+      <div class="benefit-card">
+        <div class="benefit-icon">📋</div>
         <div class="benefit-title">Permanent Deliverables</div>
         <div class="benefit-body">Every FLOOD simulation produces four documents your organisation keeps: a decision memo, evidence standards, a deliberation protocol, and a public explanation framework.</div>
       </div>
-      <div class="benefit">
-        <span class="benefit-num">05</span>
+      <div class="benefit-card">
+        <div class="benefit-icon">🤖</div>
         <div class="benefit-title">AI-Calibrated Threat Modelling</div>
         <div class="benefit-body">We use the same generative AI capabilities available to adversaries to construct realistic attack content — so your rehearsal matches the threat you will actually face.</div>
       </div>
-      <div class="benefit">
-        <span class="benefit-num">06</span>
+      <div class="benefit-card">
+        <div class="benefit-icon">📈</div>
         <div class="benefit-title">Structurally Sound Business Case</div>
         <div class="benefit-body">A single handled crisis prevents reputational damage worth multiples of any engagement fee. German institutional market benchmarks: €20k–€100k+ per engagement.</div>
       </div>
@@ -815,11 +1008,11 @@
 
 <!-- ENGAGE -->
 <section class="engage" id="engage">
-  <div class="wrap">
-    <div class="section-hd section-hd-c fade-up">
-      <span class="eyebrow eyebrow-ink">How to Engage</span>
-      <h2 class="sh sh-ink">Start where it makes sense for you.</h2>
-      <p class="sp" style="margin:16px auto 0;">
+  <div class="container">
+    <div class="engage-header fade-up">
+      <span class="section-eyebrow">How to Engage</span>
+      <h2 class="section-title">Start where it makes sense for you.</h2>
+      <p class="section-body" style="margin: 0 auto; text-align: center; max-width: 540px;">
         Every engagement starts with the diagnostic. What follows depends on your profile.
         There is no pressure to go further than you need.
       </p>
@@ -834,11 +1027,11 @@
           <li>Preliminary matrix position</li>
           <li>Clear path to full engagement</li>
         </ul>
-        <a href="#contact" class="tier-btn t-outline">Request Free Teaser</a>
+        <a href="#contact" class="tier-btn outline">Request Free Teaser</a>
       </div>
-      <div class="tier tier-feat">
+      <div class="tier featured">
         <span class="tier-badge">Most Complete</span>
-        <div class="tier-name">FLOOD Simulation</div>
+        <div class="tier-name" style="color: var(--white);">FLOOD Simulation</div>
         <div class="tier-desc">Full FORECAST report followed by a calibrated crisis simulation with your leadership team.</div>
         <ul class="tier-features">
           <li>Full FORECAST report (20–25 pages)</li>
@@ -847,7 +1040,7 @@
           <li>Four permanent debrief deliverables</li>
           <li>Post-drill resilience reassessment</li>
         </ul>
-        <a href="#contact" class="tier-btn t-solid">Arrange a Conversation</a>
+        <a href="#contact" class="tier-btn solid">Arrange a Conversation</a>
       </div>
       <div class="tier">
         <div class="tier-name">Recurring Programme</div>
@@ -858,7 +1051,7 @@
           <li>Longitudinal resilience tracking</li>
           <li>Priority access for acute situations</li>
         </ul>
-        <a href="#contact" class="tier-btn t-outline">Learn More</a>
+        <a href="#contact" class="tier-btn outline">Learn More</a>
       </div>
     </div>
   </div>
@@ -866,22 +1059,22 @@
 
 <!-- CTA -->
 <section class="cta-section" id="contact">
-  <div class="wrap">
+  <div class="container">
     <h2>Find out where you stand.</h2>
     <p>
       The free FORECAST Teaser gives you a clear picture of your top threat actors and narrative
       vulnerabilities — no commitment required.
     </p>
-    <a href="mailto:hello@studiom.co?subject=Drowning Test – FORECAST Teaser Request" class="btn btn-white">Request the Free Teaser</a>
+    <a href="mailto:hello@studiom.co?subject=Drowning Test – FORECAST Teaser Request" class="btn-white">Request the Free Teaser</a>
     <p class="cta-sub">Or write to us directly to arrange a briefing conversation.</p>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="wrap">
+  <div class="container">
     <div class="footer-inner">
-      <div class="footer-brand">The Drowning<em> Test™</em> by StudioMonaco Munich</div>
+      <div class="footer-logo">The Drowning<span> Test™</span> by StudioMonaco Munich</div>
       <div class="footer-tagline">Narrative resilience. Before you need it.</div>
       <div class="footer-copy">© 2026 Prepaganda / StudioMonaco. All rights reserved.</div>
     </div>
@@ -889,38 +1082,16 @@
 </footer>
 
 <script>
-  // Nav: transparent on hero, frosted on scroll
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 20);
-  }, { passive: true });
-
-  // Scroll reveal with stagger
+  // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         e.target.classList.add('visible');
-        observer.unobserve(e.target);
       }
     });
-  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
-  document.querySelectorAll('.fade-up').forEach((el, i) => {
-    if (!el.classList.contains('visible')) {
-      el.style.setProperty('--delay', `${(i % 3) * 70}ms`);
-      observer.observe(el);
-    }
-  });
-
-  // Dimension tabs
-  document.querySelectorAll('.dim-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.dim-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.dim-panel').forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
-    });
-  });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 </script>
 
 </body>
